@@ -7,7 +7,7 @@ DigitalOut myled(LED1);
 int main() {
 	unsigned int input = 0;
 	gpio_t gpio;
-	gpio_init_in_ex(&gpio, P1_15, PullUp);
+	gpio_init_in_ex(&gpio, p15, PullDown);
 	
     while(1) {
 		input = gpio_read(&gpio);
