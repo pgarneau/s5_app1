@@ -1,56 +1,37 @@
-#include "mbed.h"
+#include "lpc17xx.h"
 #include "stdio.h"
 
+#define p13 (P0_15)
+#define SBIT_WordLength (0x00)
+#define SBIT_DLAB (0x07)
+#define SBIT_FIFO (0x00)
+#define SBIT_RxFIFO (0x01)
+#define SBIT_TxFIFO (0x02)
 #define WAIT_TIME (1)
 #define I2C_READ_ADDRESS (0x3B)
 #define I2C_WRITE_ADDRESS (0x3A)
 #define UINT8_MAX (255)
 
-SPI spi(p5,NC,p7,p8);
-I2C i2c(p28, p27);
+//SPI spi(p5,NC,p7,p8);
+//I2C i2c(p28, p27);
 
 int main() {
-	const char INIT_CMD[2] = {0x2A, 0x01};
-	const char x_msb[1] = {0x01};
-	const char x_lsb[1] = {0x02};
-	const char y_msb[1] = {0x03};
-	const char y_lsb[1] = {0x04};
-	const char z_msb[1] = {0x05};
-	const char z_lsb[1] = {0x06};
+	uint32_t penis = 24000000 / (16*9600);
+	uint32_t penis_2 = 0x00;
+	//LPC_SC->PCONP &= ~0x000000F0;
+	//LPC_SC->PCONP |= 0x00000010; 
+	//LPC_SC->PCLKSEL0 = 0xFFFFFCFF;
+	LPC_UART1->FCR = (1<<SBIT_FIFO) | (1<<SBIT_RxFIFO) | (1<<SBIT_TxFIFO);    
+	LPC_UART1->LCR = (0x03<<SBIT_WordLength) | (1<<SBIT_DLAB);
+	LPC_UART1->DLL = penis;
+	LPC_UART1->DLM = penis_2;	
+	LPC_UART1->LCR &= ~0x000000F0;
+	LPC_PINCON->PINSEL0 &= ~0xF0000000;
+	LPC_PINCON->PINSEL0 |= 0x40000000;
+	LPC_PINCON->PINMODE0 &= ~0xF0000000;
+	LPC_PINCON->PINMODE0 |= 0xC0000000;
 	
-	spi.format(8,0);
-    spi.frequency(100000);
-	spi.write(0x76);
-	
-	i2c.frequency(100000);
-	char result[6] = {0}; //memset(result, '\0', sizeof(char)*1);
 	while (1) {
-		memset(result, 0, 1);
-		int write_1 = i2c.write(I2C_WRITE_ADDRESS, INIT_CMD, 2);
-		int write_2 = i2c.write(I2C_WRITE_ADDRESS, x_msb, 1, true);
-		uint8_t success = i2c.read(I2C_READ_ADDRESS, result, 6);
-		//for (uint8_t index = 0; index < 6; index++) {
-		//	uint8_t success = i2c.read(I2C_READ_ADDRESS, &result[index], 1);
-		//}
-		
-		if (result[0] > UINT8_MAX/2) {
-			result[0] -= UINT8_MAX;
-		}
-		
-		int8_t x_result = (result[0] * 365) / 255;
-		int8_t y_result = result[2] / 10;
-		int8_t z_result = result[4] / 10;
-		
-		char string_result[3] = {0};
-				
-		uint8_t banane = 0;
-	    banane = sprintf(string_result, "%d", x_result);
-		spi.write(0x76);
-		for (int index = 0; index < banane; index++) {
-			spi.write(0x79);
-			spi.write(4 - banane + index);
-			spi.write(string_result[index]);
-		}
-		wait(0.5);
+		LPC_UART1->THR = 0xF;
 	}
 }
