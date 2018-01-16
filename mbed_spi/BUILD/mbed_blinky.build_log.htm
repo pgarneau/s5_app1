@@ -22,31 +22,23 @@ Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
 C:\Users\garp2405\Documents\s5_app1\mbed_spi\mbed_spi.uvprojx
-Project File Date:  01/15/2018
+Project File Date:  01/16/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'mbed_blinky'
 compiling main.cpp...
-main.cpp(41): warning:  #177-D: variable "y_result"  was declared but never referenced
-  		int8_t y_result = result[2] / 10;
-main.cpp(42): warning:  #177-D: variable "z_result"  was declared but never referenced
-  		int8_t z_result = result[4] / 10;
-main.cpp(15): warning:  #177-D: variable "x_lsb"  was declared but never referenced
-  	const char x_lsb[1] = {0x02};
-main.cpp(16): warning:  #177-D: variable "y_msb"  was declared but never referenced
-  	const char y_msb[1] = {0x03};
-main.cpp(17): warning:  #177-D: variable "y_lsb"  was declared but never referenced
-  	const char y_lsb[1] = {0x04};
-main.cpp(18): warning:  #177-D: variable "z_msb"  was declared but never referenced
-  	const char z_msb[1] = {0x05};
-main.cpp(19): warning:  #177-D: variable "z_lsb"  was declared but never referenced
-  	const char z_lsb[1] = {0x06};
-main.cpp: 7 warnings, 0 errors
+main.cpp(18): warning:  #177-D: variable "init_cmd"  was declared but never referenced
+  	const char init_cmd[2] = {0x2A, 0x01};
+main.cpp(20): warning:  #177-D: variable "x_msb"  was declared but never referenced
+  	const char x_msb[1] = {0x01};
+main.cpp(27): warning:  #177-D: variable "result"  was declared but never referenced
+  	char result[6] = {0};
+main.cpp: 3 warnings, 0 errors
 linking...
-Program Size: Code=20700 RO-data=2196 RW-data=104 ZI-data=888  
+Program Size: Code=22744 RO-data=2196 RW-data=104 ZI-data=888  
 FromELF: creating hex file...
-".\BUILD\mbed_blinky.axf" - 0 Error(s), 7 Warning(s).
+".\BUILD\mbed_blinky.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
